@@ -44,8 +44,18 @@ template<class InputIterator, class OutputIterator, class T>
 OutputIterator exclusive_scan(InputIterator first, InputIterator last,
                               OutputIterator result, T init)
 {
-	typedef typename std::iterator_traits<InputIterator>::value_type VT;
-    return boost::algorithm::exclusive_scan(first, last, result, init, std::plus<VT>());
+    if (first != last)
+    {
+        T saved = init;
+        do
+        {
+            init = init + *first;
+            *result = saved;
+            saved = init;
+            ++result;
+        } while (++first != last);
+    }
+    return result;
 }
 
 }} // namespace boost and algorithm

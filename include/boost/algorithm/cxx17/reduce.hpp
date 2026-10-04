@@ -34,8 +34,9 @@ T reduce(InputIterator first, InputIterator last, T init, BinaryOperation bOp)
 template<class InputIterator, class T>
 T reduce(InputIterator first, InputIterator last, T init)
 {
-	typedef typename std::iterator_traits<InputIterator>::value_type VT;
-    return boost::algorithm::reduce(first, last, init, std::plus<VT>());
+    for (; first != last; ++first)
+        init = init + *first;
+    return init;
 }
 
 template<class InputIterator>
