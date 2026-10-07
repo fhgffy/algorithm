@@ -12,7 +12,7 @@
 #ifndef BOOST_ALGORITHM_REDUCE_HPP
 #define BOOST_ALGORITHM_REDUCE_HPP
 
-#include <functional>     // for std::plus
+#include <boost/algorithm/cxx17/detail/plus.hpp> // 2026-10-08
 #include <iterator>       // for std::iterator_traits
 
 #include <boost/config.hpp>
@@ -34,9 +34,8 @@ T reduce(InputIterator first, InputIterator last, T init, BinaryOperation bOp)
 template<class InputIterator, class T>
 T reduce(InputIterator first, InputIterator last, T init)
 {
-    for (; first != last; ++first)
-        init = init + *first;
-    return init;
+    // 2026-10-08: Add the original operand types in the shared implementation.
+    return boost::algorithm::reduce(first, last, init, detail::plus<T>());
 }
 
 template<class InputIterator>
